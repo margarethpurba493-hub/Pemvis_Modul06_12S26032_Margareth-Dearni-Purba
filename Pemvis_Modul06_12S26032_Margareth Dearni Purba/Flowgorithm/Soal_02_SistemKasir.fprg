@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="soal 2 yow"/>
+        <attribute name="authors" value="marga"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2026-10-16 02:44:12 PM"/>
+        <attribute name="created" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTY7MTE6MTk6MDYgQU07MjQ1Mg=="/>
+        <attribute name="edited" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTY7MDI6NDQ6MTIgUE07MjsyNTcx"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="hargasatuan, subtotalitem, diskonitem, totalkotor, totaldiskon, totalbelanjabersih, diskonmember, totaltagihanakhir, uangdibayar, kembalian" type="Real" array="False" size=""/>
+            <declare name="jumlahbeli, totalkuantitas" type="Integer" array="False" size=""/>
+            <declare name="kodebarang" type="String" array="False" size=""/>
+            <declare name="ismember" type="Boolean" array="False" size=""/>
+            <assign variable="totalkotor" expression="0"/>
+            <assign variable="totaldiskon" expression="0"/>
+            <assign variable="totalkuantitas" expression="0"/>
+            <output expression="&quot;masukkan kode barang (0 untuk selesai)&quot;" newline="True"/>
+            <input variable="kodebarang"/>
+            <while expression="kodebarang !=&quot;0&quot;">
+                <output expression="&quot;masukkan harga satuan:&quot;" newline="True"/>
+                <input variable="hargasatuan"/>
+                <output expression="&quot;masukkan jumlah beli&quot;" newline="True"/>
+                <input variable="jumlahbeli"/>
+                <if expression="hargasatuan&gt;0 AND jumlahbeli&gt;0">
+                    <then>
+                        <assign variable="subtotalitem" expression="hargasatuan*jumlahbeli"/>
+                        <if expression="jumlahbeli &gt;= 10">
+                            <then>
+                                <assign variable="diskonitem" expression="subtotalitem*0.05"/>
+                            </then>
+                            <else>
+                                <assign variable="diskonitem" expression="0"/>
+                            </else>
+                        </if>
+                        <assign variable="totalkotor" expression="totalkotor+subtotalitem"/>
+                        <assign variable="totaldiskon" expression="totaldiskon+diskonitem"/>
+                        <assign variable="totalkuantitas" expression="totalkuantitas+ jumlahbeli"/>
+                    </then>
+                    <else>
+                        <output expression="&quot;tidak valid, barang diabaikan&quot;" newline="True"/>
+                    </else>
+                </if>
+                <output expression="&quot;masukkan kode barang berikutnya (0 untuk selesai)&quot;" newline="True"/>
+                <input variable="kodebarang"/>
+            </while>
+            <assign variable="totalbelanjabersih" expression="totalkotor-totaldiskon"/>
+            <output expression="&quot;total belanja sebelum diskon member&quot;" newline="True"/>
+            <output expression="&quot;total belanja bersih&quot; &amp; totalbelanjabersih" newline="True"/>
+            <output expression="&quot;apakah pelanggan member? (true/false)&quot;" newline="True"/>
+            <input variable="ismember"/>
+            <if expression="ismember == true AND totalbelanjabersih &gt;= 150000">
+                <then>
+                    <assign variable="diskonmember" expression="totalbelanjabersih*0.10"/>
+                </then>
+                <else>
+                    <assign variable="diskonmember" expression="0"/>
+                </else>
+            </if>
+            <assign variable="totaltagihanakhir" expression="totalbelanjabersih-diskonmember"/>
+            <output expression="&quot;total tagihan akhir adalah&quot; &amp; totaltagihanakhir" newline="True"/>
+            <output expression="&quot;masukkan uang pembayaran&quot;" newline="True"/>
+            <input variable="uangdibayar"/>
+            <while expression="uangdibayar&lt;totaltagihanakhir">
+                <output expression="&quot;uang kurang, masukkan ulang&quot;" newline="True"/>
+                <input variable="uangdibayar"/>
+            </while>
+            <assign variable="kembalian" expression="uangdibayar-totaltagihanakhir"/>
+            <output expression="&quot;kembalian&quot; &amp; kembalian" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>

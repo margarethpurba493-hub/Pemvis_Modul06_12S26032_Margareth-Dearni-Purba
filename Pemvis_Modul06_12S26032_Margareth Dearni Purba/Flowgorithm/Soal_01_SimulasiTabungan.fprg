@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="Soal_01"/>
+        <attribute name="authors" value="marga"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2026-10-16 11:18:55 AM"/>
+        <attribute name="created" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTY7MTA6MTY6MTkgQU07MjQ1Mg=="/>
+        <attribute name="edited" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTY7MTE6MTg6NTUgQU07MjsyNTY0"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="saldoawal, setoranrutin, targetdana, saldoberjalan, bungabulanini, totalsetoran, totalbunga, biayaadmin, kekurangandana" type="Real" array="False" size=""/>
+            <declare name="durasibulan, bulan, bulantarget" type="Integer" array="False" size=""/>
+            <output expression="&quot;masukkanlah saldo awal&quot;" newline="True"/>
+            <input variable="saldoawal"/>
+            <output expression="&quot;berapa setoran rutin?&quot;" newline="True"/>
+            <input variable="setoranrutin"/>
+            <output expression="&quot;berapa durasi perbulannya?&quot;" newline="True"/>
+            <input variable="durasibulan"/>
+            <output expression="&quot;berapa target dananya?&quot;" newline="True"/>
+            <input variable="targetdana"/>
+            <if expression="saldoawal&gt;=0 AND  setoranrutin&gt;0 AND durasibulan&gt;=1 AND targetdana &gt;0">
+                <then>
+                    <assign variable="saldoberjalan" expression="saldoawal"/>
+                    <assign variable="totalsetoran" expression="0"/>
+                    <assign variable="totalbunga" expression="0"/>
+                    <assign variable="bulantarget" expression="0"/>
+                    <assign variable="targettercapai" expression="false"/>
+                    <assign variable="biayaadmin" expression="5000"/>
+                    <for variable="bulan" start="1" end="durasibulan" direction="inc" step="1">
+                        <assign variable="saldoberjalan" expression="saldoberjalan + setoranrutin"/>
+                        <assign variable="totalsetoran" expression="totalsetoran + setoranrutin"/>
+                        <if expression="saldoberjalan &lt; 5000000">
+                            <then>
+                                <assign variable="bungabulanini" expression="0.003*saldoberjalan"/>
+                            </then>
+                            <else>
+                                <assign variable="bungabulanini" expression="0.005*saldoberjalan"/>
+                            </else>
+                        </if>
+                        <assign variable="saldoberjalan" expression="saldoberjalan+bungabulanini-biayaadmin"/>
+                        <assign variable="totalbunga" expression="totalbunga+bungabulanini"/>
+                        <if expression="targettercapai==false AND saldoberjalan &gt;= targetdana">
+                            <then>
+                                <assign variable="targettercapai" expression="true"/>
+                                <assign variable="bulantarget" expression="bulan"/>
+                            </then>
+                            <else/>
+                        </if>
+                        <output expression="&quot;saldo berjalan&quot; &amp; saldoberjalan" newline="True"/>
+                    </for>
+                    <if expression="targettercapai==true">
+                        <then>
+                            <output expression="&quot; bulan target&quot; &amp; bulantarget" newline="True"/>
+                        </then>
+                        <else>
+                            <assign variable="kekurangandana" expression="targetdana-saldoberjalan"/>
+                            <output expression="&quot;target belum tercapai&quot;" newline="True"/>
+                            <output expression="&quot; kekurangan dananya adalah&quot; &amp; kekurangandana" newline="True"/>
+                        </else>
+                    </if>
+                    <output expression="&quot;total setoran nya adalah&quot; &amp; totalsetoran" newline="True"/>
+                    <output expression="&quot;total bunga nya adalah&quot; &amp; totalbunga" newline="True"/>
+                    <output expression="&quot;saldo berjalan&quot; &amp; saldoberjalan" newline="True"/>
+                </then>
+                <else>
+                    <output expression="&quot;error, program tidak valid!&quot;" newline="True"/>
+                </else>
+            </if>
+        </body>
+    </function>
+</flowgorithm>

@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="Soal_03_SistemMonitoring"/>
+        <attribute name="authors" value="marga"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2026-10-17 10:07:01 AM"/>
+        <attribute name="created" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTY7MDI6NDQ6MjkgUE07MjQ3MA=="/>
+        <attribute name="edited" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTY7MDM6NTQ6MTcgUE07MzttYXJnYTtNQVJHQVJFVEg7MjAyNi0xMC0xNjswMjo0NDoyMiBQTTs1MTAx"/>
+        <attribute name="edited" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTc7MTA6MDc6MDEgQU07MzsyNTU0"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="suhuair, derajatkeasaman, kadaroksigenterlarut, totalPH, totalDO, pHmaksimum, pHminimum, ratarataPH, ratarataDO" type="Real" array="False" size=""/>
+            <declare name="anomali, ishazardtrip" type="Boolean" array="False" size=""/>
+            <declare name="anomaliberuntun, totalsampevalid" type="Integer" array="False" size=""/>
+            <declare name="statuspenghenti" type="String" array="False" size=""/>
+            <assign variable="anomaliberuntun" expression="0"/>
+            <assign variable="ishazardtrip" expression="false"/>
+            <assign variable="totalsampevalid" expression="0"/>
+            <assign variable="totalPH" expression="0"/>
+            <assign variable="totalDO" expression="0"/>
+            <do expression="suhuair !=-999 AND ishazardtrip == false">
+                <output expression="&quot;masukkan suhu air&quot;" newline="True"/>
+                <input variable="suhuair"/>
+                <if expression="suhuair !=-999">
+                    <then>
+                        <output expression="&quot;masukkan derajat keasaman&quot;" newline="True"/>
+                        <input variable="derajatkeasaman"/>
+                        <output expression="&quot;masukkan kadar oksigen terlarut&quot;" newline="True"/>
+                        <input variable="kadaroksigenterlarut"/>
+                        <assign variable="totalsampevalid" expression="totalsampevalid+1"/>
+                        <assign variable="totalPH" expression="totalPH+derajatkeasaman"/>
+                        <assign variable="totalDO" expression="totalDO+kadaroksigenterlarut"/>
+                        <if expression="totalsampevalid == 1">
+                            <then>
+                                <assign variable="pHmaksimum" expression="derajatkeasaman"/>
+                                <assign variable="pHminimum" expression="derajatkeasaman"/>
+                            </then>
+                            <else>
+                                <if expression="derajatkeasaman&gt;pHmaksimum">
+                                    <then>
+                                        <assign variable="pHmaksimum" expression="derajatkeasaman"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                                <if expression="derajatkeasaman&lt;pHminimum">
+                                    <then>
+                                        <assign variable="pHminimum" expression="derajatkeasaman"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                            </else>
+                        </if>
+                        <if expression="derajatkeasaman&lt;6.0 OR derajatkeasaman &gt; 9.0 OR kadaroksigenterlarut &lt;3.0">
+                            <then>
+                                <assign variable="anomaliberuntun" expression="anomaliberuntun + 1"/>
+                            </then>
+                            <else>
+                                <assign variable="anomaliberuntun" expression="0"/>
+                            </else>
+                        </if>
+                        <if expression="anomaliberuntun == 3">
+                            <then>
+                                <assign variable="ishazardtrip" expression="true"/>
+                            </then>
+                            <else/>
+                        </if>
+                        <if expression="ishazardtrip == true">
+                            <then>
+                                <assign variable="statuspenghenti" expression="&quot;emergency hazard trip&quot;"/>
+                            </then>
+                            <else/>
+                        </if>
+                    </then>
+                    <else/>
+                </if>
+            </do>
+            <if expression="totalsampevalid &gt; 0">
+                <then>
+                    <assign variable="ratarataPH" expression="totalPH/totalsampevalid"/>
+                    <assign variable="ratarataDO" expression="totalDO/totalsampevalid"/>
+                    <output expression="&quot;total sampe valid: &quot; &amp; totalsampevalid" newline="True"/>
+                    <output expression="&quot;total PH &quot; &amp; totalPH" newline="True"/>
+                    <output expression="&quot;total DO&quot; &amp; totalDO" newline="True"/>
+                    <output expression="&quot;rata rata ph&quot; &amp; ratarataPH" newline="True"/>
+                    <output expression="&quot;rata rata DO&quot; &amp; ratarataDO" newline="True"/>
+                    <output expression="&quot;nilai ph maks&quot; &amp; pHmaksimum" newline="True"/>
+                    <output expression="&quot;nilai ph min&quot; &amp; pHminimum" newline="True"/>
+                    <output expression="&quot;status alarm&quot; &amp; statuspenghenti" newline="True"/>
+                </then>
+                <else/>
+            </if>
+        </body>
+    </function>
+</flowgorithm>

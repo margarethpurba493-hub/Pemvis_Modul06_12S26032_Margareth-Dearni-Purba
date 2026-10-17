@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="4.2">
+    <attributes>
+        <attribute name="name" value="soal 4 yokk"/>
+        <attribute name="authors" value="marga"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2026-10-16 08:45:09 PM"/>
+        <attribute name="created" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTY7MDI6NDQ6MjIgUE07MjQ2Mw=="/>
+        <attribute name="edited" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTY7MDM6MzE6MTQgUE07MTttYXJnYTtNQVJHQVJFVEg7MjAyNi0xMC0xNjswMjo0NDoyOSBQTTs1MDk4"/>
+        <attribute name="edited" value="bWFyZ2E7TUFSR0FSRVRIOzIwMjYtMTAtMTY7MDg6NDU6MDkgUE07MjsyNTg0"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="jumlahmedis, jumlahhari, i, j" type="Integer" array="False" size=""/>
+            <declare name="namamedis, status" type="String" array="False" size=""/>
+            <declare name="jamkerjaharian, totaljamkerjamedis, totaljamkerjainstitusi, jamtertinggi, jamterendah, rataratajam, honorarium, jamlembur, totalhonorarium, selisihdisparitas" type="Real" array="False" size=""/>
+            <declare name="medisterberat, medisteringan" type="Integer" array="False" size=""/>
+            <assign variable="totaljamkerjainstitusi" expression="0"/>
+            <assign variable="totalhonorarium" expression="0"/>
+            <assign variable="jamtertinggi" expression="0"/>
+            <assign variable="jamterendah" expression="0"/>
+            <output expression="&quot;jumlah dokter&quot;" newline="True"/>
+            <input variable="jumlahmedis"/>
+            <output expression="&quot;jumlah hari&quot;" newline="True"/>
+            <input variable="jumlahhari"/>
+            <for variable="i" start="1" end="jumlahmedis" direction="inc" step="1">
+                <output expression="&quot;nama medis&quot;" newline="True"/>
+                <input variable="namamedis"/>
+                <assign variable="totaljamkerjamedis" expression="0"/>
+                <for variable="j" start="1" end="jumlahhari" direction="inc" step="1">
+                    <output expression="&quot;jam kerja harian&quot;" newline="True"/>
+                    <input variable="jamkerjaharian"/>
+                    <if expression="jamkerjaharian &gt;= 0 AND jamkerjaharian &lt;= 24">
+                        <then>
+                            <assign variable="totaljamkerjamedis" expression="totaljamkerjamedis+jamkerjaharian"/>
+                        </then>
+                        <else>
+                            <output expression="&quot;jam kerja harus 0-24 jam, tidak valid!&quot;" newline="True"/>
+                        </else>
+                    </if>
+                </for>
+                <if expression="totaljamkerjamedis &gt;40">
+                    <then>
+                        <assign variable="jamlembur" expression="totaljamkerjamedis-40"/>
+                        <assign variable="honorarium" expression="2000000 + (jamlembur*75000)"/>
+                        <assign variable="status" expression="&quot;lembur tinggi (PERINGATAN RISIKO KELELAHAN)&quot;"/>
+                    </then>
+                    <else>
+                        <assign variable="honorarium" expression="totaljamkerjamedis*50000"/>
+                        <assign variable="status" expression="&quot;beban kerja normal&quot;"/>
+                    </else>
+                </if>
+                <assign variable="totalhonorarium" expression="totalhonorarium+honorarium"/>
+                <if expression="i == 1">
+                    <then>
+                        <assign variable="jamtertinggi" expression="totaljamkerjamedis"/>
+                        <assign variable="jamterendah" expression="totaljamkerjamedis"/>
+                    </then>
+                    <else/>
+                </if>
+                <if expression="totaljamkerjamedis&gt;jamtertinggi">
+                    <then>
+                        <assign variable="jamtertinggi" expression="totaljamkerjamedis"/>
+                    </then>
+                    <else/>
+                </if>
+                <if expression="totaljamkerjamedis &lt; jamterendah">
+                    <then>
+                        <assign variable="jamterendah" expression="totaljamkerjamedis"/>
+                    </then>
+                    <else/>
+                </if>
+            </for>
+            <assign variable="totaljamkerjainstitusi" expression="totaljamkerjainstitusi+totaljamkerjamedis"/>
+            <assign variable="rataratajam" expression="totaljamkerjainstitusi/jumlahmedis"/>
+            <assign variable="selisihdisparitas" expression="jamtertinggi-jamterendah"/>
+            <if expression="selisihdisparitas&gt; 15">
+                <then>
+                    <output expression="&quot;EVALUASI SDM: Terjadi ketimpangan beban kerja parah (&gt; 15 jam)! Jadwal shift wajib diratakan kembali.&quot;" newline="True"/>
+                </then>
+                <else>
+                    <output expression="&quot;EVALUASI SDM: Distribusi beban kerja tenaga medis relatif merata dan adil.&quot;" newline="True"/>
+                </else>
+            </if>
+            <output expression="&quot;total honorarium&quot; &amp; totalhonorarium" newline="True"/>
+            <output expression="&quot;rata rata jam kerja institusi:&quot;" newline="True"/>
+            <output expression="rataratajam" newline="True"/>
+            <output expression="&quot;jam kerja tertinggi:&quot;" newline="True"/>
+            <output expression="&quot;jam kerja terendah:&quot;" newline="True"/>
+            <output expression="jamterendah" newline="True"/>
+            <output expression="&quot;selisih disparitas&quot; &amp; selisihdisparitas" newline="True"/>
+        </body>
+    </function>
+</flowgorithm>
